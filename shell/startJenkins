@@ -1,0 +1,2 @@
+#!/bin/bash
+java -jar /home/www/.jenkins/jenkins.war --httpPort=8000 &

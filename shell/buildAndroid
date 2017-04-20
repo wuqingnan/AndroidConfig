@@ -1,0 +1,54 @@
+#!/bin/bash
+# -------------------------------------------------------------------------------
+# Revision:    0.1
+# Date:        2017/03/15
+# Email:       shizhongyong@yunniao.cn
+# Description: Used for build android apk. 
+# -------------------------------------------------------------------------------
+
+# -------------------------------------------------------------------------------
+# usage : command CLIENT TASK APK_FROM APK_TO
+# 			CLIENT：端，例如S、C、B、G…
+# 			TASK：需要执行的gradle的task
+#			APK_FROM：执行task生成的apk名称
+#			APK_TO：Apk拷贝到Tomcat上的名称
+# -------------------------------------------------------------------------------
+
+CLIENT=$1
+TASK=$2
+APK_FROM=$3
+APK_TO=$4
+
+# 执行build.gradle中的task
+gradle clean ${TASK}
+# $?: 上个命令的退出状态，或函数的返回值
+result=$?
+
+if [ $result -eq 0 ];then
+	echo 打包成功
+else
+	echo 打包失败
+	exit $result
+fi
+
+FILE_PATH=/home/www/server/android/build/
+# 复制Apk到Tomcat目录下
+find app/build/outputs/apk/ -name ${APK_FROM}|xargs -i cp {} ${FILE_PATH}${APK_TO}
+# 查找混淆mapping文件
+find app/build/outputs/ -name "mapping.txt"|xargs -i cp {} ${FILE_PATH}mappingFor${CLIENT}.txt
+
+# 取当前branch，GIT_BRANCH是jenkins环境变量，例如：origin/master
+# ${var#*/} 从左侧第一个/开始截取字符串
+BRANCH=${GIT_BRANCH#*/}
+BRANCH_INFO_FILE=${FILE_PATH}${CLIENT}BranchInfo.properties
+echo Branch=$BRANCH > $BRANCH_INFO_FILE
+echo Task=$TASK >> $BRANCH_INFO_FILE
+
+git log -n 5 > ${FILE_PATH}${CLIENT}GitLog.log
+
+# 发推送通知
+BUILD_TIME=`date "+%m-%d_%H:%M:%S"`
+NOTIFY_ID=$((`date +%s` % 1000000))
+curl -H "Authorization:key=4WajFsvq6Dz/BnS31patCA==" -d "payload=${CLIENT}&pass_through=0&title=启奏：${CLIENT}端有更新&description=${CLIENT}端更新于${BUILD_TIME}&notify_id=${NOTIFY_ID}&notify_type=2" https://api.xmpush.xiaomi.com/v2/message/all
+
+exit 0
