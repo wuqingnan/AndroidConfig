@@ -1,0 +1,11 @@
+#!/usr/bin/expect
+
+set path [lindex $argv 0]
+
+spawn scp shizhongyong@192.168.200.36:$path ./
+expect "password:"
+send "shizy2016\r"
+send "exit\r"
+expect eof
+
+
