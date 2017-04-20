@@ -13,7 +13,7 @@ set dest_name [lindex $argv 1]
 set dest_dir workspace/test/appium/package/env103/
 
 spawn scp $src_path $name@$host:$dest_dir$dest_name
-expect "Password:"
+expect "password:"
 send "$password\r"
 send "exit\r"
 expect eof
