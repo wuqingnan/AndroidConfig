@@ -19,8 +19,9 @@ TASK=$2
 APK_FROM=$3
 APK_TO=$4
 
+chmod a+x gradlew
 # 执行build.gradle中的task
-gradle clean ${TASK}
+./gradlew clean ${TASK}
 # $?: 上个命令的退出状态，或函数的返回值
 result=$?
 
