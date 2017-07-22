@@ -1,7 +1,7 @@
 #!/usr/bin/expect
 if {$argc < 2} {
-        send_user "usage: commond src_path dest_name.\r\n"
-        exit
+	send_user "usage: commond src_path dest_name.\r\n"
+	exit
 }
 set name yunniao
 set password wbyyunniao
@@ -12,9 +12,20 @@ set dest_name [lindex $argv 1]
 set dest_dir workspace/test/appium/package/env103/
 
 spawn scp $src_path $name@$host:$dest_dir$dest_name
-set timeout 10
-expect "password:"
-send "$password\r"
-set timeout 120
-send "exit\r"
-expect eof
+expect {
+	"Password:" {
+		set timeout 120
+		send "$password\r"
+		exp_continue
+	}
+	timeout {
+		send_user "Scp Timeout!\n"
+		exit
+	}
+	eof {
+		send_user "Scp Successful!\n"
+		exit
+	}
+}
+
+exit
