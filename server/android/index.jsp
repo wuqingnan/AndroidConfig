@@ -187,8 +187,9 @@ newRed{
 			<br/>
 			<stressThis><a target="_blank" href="/files/app_client.zip"><newRed>new&nbsp请在内网使用</newRed>下载app自动化测试器</a></stressThis>
 			<br/>
-			<a target="_blank" href="/files/index.jsp">查看下载文件列表</a>&nbsp&nbsp
-			<a target="_blank" href="/release/index.jsp">查看上线包列表</a>
+			<a target="_blank" href="/files/index.jsp">下载文件列表</a>&nbsp&nbsp
+			<a target="_blank" href="/release/index.jsp">上线包列表</a>&nbsp&nbsp
+			<a target="_blank" href="/hotfix/index.jsp">热修复BASE包</a>
 			<br/>
 			<%
 				Map<String, String> map = getClients(request);
