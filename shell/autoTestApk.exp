@@ -14,7 +14,7 @@ set dest_dir workspace/test/appium/package/env103/
 spawn scp $src_path $name@$host:$dest_dir$dest_name
 expect {
 	"Password:" {
-		set timeout 120
+		set timeout 600
 		send "$password\r"
 		exp_continue
 	}
