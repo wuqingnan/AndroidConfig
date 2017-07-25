@@ -201,7 +201,7 @@ newRed{
 			%>
 			<a target="_blank" href="http://192.168.200.143:8000">Check in jenkins</a>
 			<br/> 
-			<a target="_blank" href="/nexus/">Check in nexus</a>
+			<a target="_blank" href="http://192.168.200.143:8081">Check in nexus</a>
 			<br/> 
 		</div>
 		<div id="sideInfo">
