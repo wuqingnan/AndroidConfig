@@ -131,7 +131,7 @@
 						out.println("<img src=\"image/QR-" + client + ".png\" alt=\"" + name + "\">");
 						out.println("</a>");
 						
-						out.println("<p><a class=\"btn btn-default\" href=\"" + String.format(changeLogFormat, client) + "\" role=\"button\">Change Log &raquo;</a></p>");
+						out.println("<p><a target=\"_blank\" class=\"btn btn-default\" href=\"" + String.format(changeLogFormat, client) + "\" role=\"button\">Change Log &raquo;</a></p>");
 						out.println("</div>");
 					}
 				}
