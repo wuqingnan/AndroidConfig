@@ -1,0 +1,37 @@
+[
+  {
+    "name": "商户端",
+    "alias": "B",
+    "apkPath": "build/AndroidBMaster.apk"
+  },
+  {
+    "name": "车队长端",
+    "alias": "C",
+    "apkPath": "build/AndroidCMaster.apk"
+  },
+  {
+    "name": "运作端",
+    "alias": "F",
+    "apkPath": "build/AndroidFMaster.apk"
+  },
+  {
+    "name": "共配端",
+    "alias": "G",
+    "apkPath": "build/AndroidGMaster.apk"
+  },
+  {
+    "name": "司机端",
+    "alias": "S",
+    "apkPath": "build/AndroidSMaster.apk"
+  },
+  {
+    "name": "运力宝",
+    "alias": "Y",
+    "apkPath": "build/AndroidYMaster.apk"
+  },
+  {
+    "name": "鸟金所-车队长端",
+    "alias": "EC",
+    "apkPath": "build/AndroidECMaster.apk"
+  }
+]

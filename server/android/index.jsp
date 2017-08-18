@@ -8,9 +8,9 @@
 <%@ page import="com.google.gson.*" %>
 <%@ page import="com.google.gson.reflect.TypeToken" %>
 <%!
-	public static List<Map<String, String>> loadConfig(HttpServletRequest req) {
+	public static List<Map<String, String>> loadConfig(HttpServletRequest request) {
 		try {
-			File file = new File(req.getRealPath("") + File.separator + "config.json");
+			File file = new File(request.getServletContext().getRealPath("") + File.separator + "clients.json");
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			StringBuilder builder = new StringBuilder();
 			String line = null;
@@ -30,8 +30,8 @@
 		return null;
 	}
 	
-	String getApkUpdateTime(HttpServletRequest req, String apkName) {
-		File apkFile = new File(req.getRealPath("") + "/build/" + apkName);
+	String getApkUpdateTime(HttpServletRequest request, String apkPath) {
+		File apkFile = new File(request.getServletContext().getRealPath("") + File.separator + apkPath);
 		SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm:ss");
 		if (apkFile.exists()) {
 			return "更新时间：" + format.format(new Date(apkFile.lastModified()));
@@ -111,27 +111,27 @@
           <div class="row">
 			<%
 				if (configList != null) {
-					String apk = null;
 					String name = null;
-					String client = null;
+					String alias = null;
+					String apkPath = null;
 					Map<String, String> cfg = null;
 					final String changeLogFormat = "http://192.168.200.143:8000/view/Build/job/%s-Build/changes";
 					for (int i = 0; i < configList.size(); i++) {
 						cfg = configList.get(i);
-						apk = cfg.get("apk");
 						name = cfg.get("name");
-						client = cfg.get("client");
+						alias = cfg.get("alias");
+						apkPath = cfg.get("apkPath");
 						
 						out.println("<div class=\"col-xs-6 col-lg-4\">");
-						out.println("<h3>" + name + "（" + client + "）</h3>");
+						out.println("<h3>" + name + "（" + alias + "）</h3>");
 						
-						out.println("<p>" + getApkUpdateTime(request, apk) + "</p>");
+						out.println("<p>" + getApkUpdateTime(request, apkPath) + "</p>");
 						
-						out.println("<a href=\"build/" + apk + "\" class=\"thumbnail\">");
-						out.println("<img src=\"image/QR-" + client + ".png\" alt=\"" + name + "\">");
+						out.println("<a href=\"" + apkPath + "\" class=\"thumbnail\">");
+						out.println("<img src=\"image/QR-" + alias + ".png\" alt=\"" + name + "\">");
 						out.println("</a>");
 						
-						out.println("<p><a target=\"_blank\" class=\"btn btn-default\" href=\"" + String.format(changeLogFormat, client) + "\" role=\"button\">Change Log &raquo;</a></p>");
+						out.println("<p><a target=\"_blank\" class=\"btn btn-default\" href=\"" + String.format(changeLogFormat, alias) + "\" role=\"button\">Change Log &raquo;</a></p>");
 						out.println("</div>");
 					}
 				}
@@ -145,10 +145,10 @@
             <a href="/files/app_client.zip" class="list-group-item">自动化测试工具 </a>            
 			<%
 				if (configList != null) {
-					String client = null;
+					String alias = null;
 					for (int i = 0; i < configList.size(); i++) {
-						client = configList.get(i).get("client");
-						out.println("<a href=\"/release/" + client + "\" target=\"_blank\" class=\"list-group-item\">" + client + "端上线包</a>");
+						alias = configList.get(i).get("alias");
+						out.println("<a href=\"/release/" + alias + "\" target=\"_blank\" class=\"list-group-item\">" + alias + "端上线包</a>");
 					}
 				}
 			%>
