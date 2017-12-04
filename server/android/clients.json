@@ -38,5 +38,10 @@
     "name": "鸟金所-司机端",
     "alias": "ES",
     "apkPath": "build/AndroidESMaster.apk"
+  },
+  {
+    "name": "云鸟送装",
+    "alias": "I",
+    "apkPath": "build/AndroidIMaster.apk"
   }
 ]
