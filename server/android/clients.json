@@ -41,7 +41,7 @@
   },
   {
     "name": "云鸟送装",
-    "alias": "I",
-    "apkPath": "build/AndroidIMaster.apk"
+    "alias": "L",
+    "apkPath": "build/AndroidLMaster.apk"
   }
 ]
