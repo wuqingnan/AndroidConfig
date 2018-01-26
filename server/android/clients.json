@@ -40,7 +40,7 @@
     "apkPath": "build/AndroidESMaster.apk"
   },
   {
-    "name": "云鸟送装",
+    "name": "云鸟末端配送",
     "alias": "L",
     "apkPath": "build/AndroidLMaster.apk"
   }
