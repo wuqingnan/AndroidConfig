@@ -169,6 +169,10 @@
 						}
 					%>
 					<a href="/hotfix/index.jsp" target="_blank" class="list-group-item">热更新</a>
+					<div style="position: relative;">
+						<a href="/jiagu/index.jsp" target="_blank" class="list-group-item">已加固上线包</a>
+						<a href="/upload.jsp?path=jiagu" target="_blank" style="position:absolute;top: 0px;right: 0px;padding: 10px 15px;">上传</a>
+					</div>
 					<a href="/files/index.jsp" target="_blank" class="list-group-item">文件下载</a>
 				</div>
 			</div>
