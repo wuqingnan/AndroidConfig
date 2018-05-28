@@ -43,5 +43,10 @@
     "name": "云鸟末端配送",
     "alias": "L",
     "apkPath": "build/AndroidLMaster.apk"
+  },
+  {
+    "name": "鸟港末端配送",
+    "alias": "N",
+    "apkPath": "build/AndroidNMaster.apk"
   }
 ]
