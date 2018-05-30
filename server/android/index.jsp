@@ -7,7 +7,9 @@
 <%@ page import="java.lang.reflect.Type"%>
 <%@ page import="com.google.gson.*"%>
 <%@ page import="com.google.gson.reflect.TypeToken"%>
-<%!public static List<Map<String, String>> loadConfig(HttpServletRequest request) {
+<%@page import="java.net.InetAddress"%>
+<%!
+	public static List<Map<String, String>> loadConfig(HttpServletRequest request) {
 		try {
 			File file = new File(request.getServletContext().getRealPath("") + File.separator + "clients.json");
 			BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -71,11 +73,26 @@
       <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    
+<style>
+.qrcode {
+	position:fixed;
+	left: -300px;
+	top: -300px;
+	width: 200px;
+	height: 200px;
+	padding: 10px;
+}
+</style>
 </head>
 
 <body>
 	<%
 		List<Map<String, String>> configList = loadConfig(request);
+		String localIp = InetAddress.getLocalHost().getHostAddress();
+		String serverUrl = "http://" + localIp;
+		String jenkinsHost = serverUrl + ":" + 8000;
+		String NexusHost = serverUrl + ":" + 8081;
 	%>
 	<nav class="navbar navbar-fixed-top navbar-inverse">
 		<div class="container">
@@ -92,8 +109,10 @@
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="#">Home</a></li>
-					<li><a href="http://192.168.200.143:8000/" target="_blank">Jenkins</a></li>
-					<li><a href="http://192.168.200.143:8081/" target="_blank">Nexus</a></li>
+					<%
+						out.println("<li><a href=\"" + jenkinsHost + "\" target=\"_blank\">Jenkins</a></li>");
+						out.println("<li><a href=\"" + NexusHost + "\" target=\"_blank\">Nexus</a></li>");
+					%>
 				</ul>
 			</div>
 			<!-- /.nav-collapse -->
@@ -120,32 +139,37 @@
 						if (configList != null) {
 							String name = null;
 							String alias = null;
+							String manager = null;
 							String apkPath = null;
 							Map<String, String> cfg = null;
-							final String changeLogFormat = "http://192.168.200.143:8000/view/Build/job/%s-Build/changes";
+							final String changeLogFormat = jenkinsHost + "/view/Build/job/%s-Build/changes";
 							for (int i = 0; i < configList.size(); i++) {
 								cfg = configList.get(i);
 								name = cfg.get("name");
 								alias = cfg.get("alias");
+								manager = cfg.get("manager");
 								apkPath = cfg.get("apkPath");
 
 								out.println("<div class=\"col-xs-6 col-lg-4\">");
 								out.println("<h3>" + name + "（" + alias + "）</h3>");
 
 								out.println("<p>" + getApkUpdateTime(request, apkPath) + "</p>");
+								out.println("<p>负责人：" + manager + "</p>");
 
-								out.println("<a href=\"" + apkPath + "\" class=\"thumbnail\">");
-								out.println("<img src=\"image/QR-" + alias + ".png\" alt=\"" + name + "\">");
-								out.println("</a>");
-
-								out.println("<p><a target=\"_blank\" class=\"btn btn-default\" href=\""
-										+ String.format(changeLogFormat, alias) + "\" role=\"button\">Change Log &raquo;</a></p>");
+								out.println("<p>");
+								out.println("<a target=\"_blank\" class=\"btn btn-default\" href=\""
+										+ String.format(changeLogFormat, alias) + "\" role=\"button\">Change Log &raquo;</a>");
+								out.println("<a target='_blank' class='btn btn-default' href='" + apkPath
+										+ "' role='button' onmouseover='showQR(this)' onmouseout='hideQR()' >Download &raquo;</a>");
+								out.println("</p>");
+								
 								out.println("</div>");
 							}
 						}
 					%>
 					<div class="col-xs-6 col-lg-4">
 						<h3>鸟港共配服务版小程序</h3>
+						<p>负责人：杨明</p>
 						<p>使用微信扫描并使用鸟港A端账户登录</p>
 						<img src="image/QR-niaogang_a_miniapp.jpg" alt="鸟港共配服务版小程序">
 					</div>
@@ -189,20 +213,65 @@
 	</div>
 	<!--/.container-->
 
+	<div id="qrcode" class="thumbnail qrcode"></div>
 
 	<!-- Bootstrap core JavaScript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+	<script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
 	<script>
 		window.jQuery
 				|| document
 						.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')
 	</script>
-	<script
-		src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="http://static.runoob.com/assets/qrcode/qrcode.min.js"></script>
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 	<script src="js/offcanvas.js"></script>
+	<script>
+		var qrDiv = document.getElementById("qrcode");
+		var qrcode = new QRCode(qrDiv, {
+			width : qrDiv.offsetWidth,
+			height : qrDiv.offsetHeight
+		});
+		qrDiv.style.display = "none";
+	
+		function showQR(obj) {
+			if (qrDiv.style.display != "block") {
+				qrDiv.style.display = "block";
+				
+				var rect = new Array();
+				getLocationOnScreen(obj, rect);
+				
+				qrDiv.style.left = rect[0] + "px";
+				qrDiv.style.top = rect[1] - qrDiv.offsetHeight + "px";
+				
+				qrcode.makeCode(obj.href);
+			}
+		}
+		
+		function hideQR() {
+			var qrDiv = document.getElementById("qrcode");
+			if(qrDiv.style.display != "none") {
+				qrDiv.style.display = "none";
+			}
+		}
+		
+		function getLocationOnScreen(obj, rect) {
+			var top = obj.offsetTop;
+		    var left = obj.offsetLeft;
+		    var width = obj.offsetWidth;
+		    var height = obj.offsetHeight;
+		    while(obj = obj.offsetParent) {
+		    	top += obj.offsetTop;
+		    	left += obj.offsetLeft;
+		    }
+		    rect[0] = left;
+		    rect[1] = top;
+		    rect[2] = width;
+		    rect[3] = height;
+		}
+	</script>
 </body>
 </html>

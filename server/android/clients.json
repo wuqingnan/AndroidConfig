@@ -2,51 +2,61 @@
   {
     "name": "商户端",
     "alias": "B",
+    "manager": "李益",
     "apkPath": "build/AndroidBMaster.apk"
   },
   {
     "name": "车队长端",
     "alias": "C",
+    "manager": "史忠勇",
     "apkPath": "build/AndroidCMaster.apk"
   },
   {
     "name": "运作端",
     "alias": "F",
+    "manager": "徐军峰",
     "apkPath": "build/AndroidFMaster.apk"
   },
   {
     "name": "共配端",
     "alias": "G",
+    "manager": "徐军峰",
     "apkPath": "build/AndroidGMaster.apk"
   },
   {
     "name": "司机端",
     "alias": "S",
+    "manager": "熊大虎",
     "apkPath": "build/AndroidSMaster.apk"
   },
   {
     "name": "运力宝",
     "alias": "Y",
+    "manager": "史忠勇",
     "apkPath": "build/AndroidYMaster.apk"
   },
   {
     "name": "鸟金所-车队长端",
     "alias": "EC",
+    "manager": "杜斌",
     "apkPath": "build/AndroidECMaster.apk"
   },
   {
     "name": "鸟金所-司机端",
     "alias": "ES",
+    "manager": "杜斌",
     "apkPath": "build/AndroidESMaster.apk"
   },
   {
     "name": "云鸟末端配送",
     "alias": "L",
+    "manager": "徐军峰",
     "apkPath": "build/AndroidLMaster.apk"
   },
   {
     "name": "鸟港末端配送",
     "alias": "N",
+    "manager": "宋超",
     "apkPath": "build/AndroidNMaster.apk"
   }
 ]
