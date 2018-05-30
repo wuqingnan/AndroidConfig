@@ -244,8 +244,8 @@
 				var rect = new Array();
 				getLocationOnScreen(obj, rect);
 				
-				qrDiv.style.left = rect[0] + "px";
-				qrDiv.style.top = rect[1] - qrDiv.offsetHeight + "px";
+				qrDiv.style.left = -document.documentElement.scrollLeft + rect[0] + "px";
+				qrDiv.style.top = -document.documentElement.scrollTop + rect[1] - qrDiv.offsetHeight + "px";
 				
 				qrcode.makeCode(obj.href);
 			}
