@@ -244,8 +244,9 @@
 				var rect = new Array();
 				getLocationOnScreen(obj, rect);
 				
-				qrDiv.style.left = -document.documentElement.scrollLeft + rect[0] + "px";
-				qrDiv.style.top = -document.documentElement.scrollTop + rect[1] - qrDiv.offsetHeight + "px";
+				var scrollPosition = getScollPostion();
+				qrDiv.style.left = -scrollPosition.scrollLeft + rect[0] + "px";
+				qrDiv.style.top = -scrollPosition.scrollTop + rect[1] - qrDiv.offsetHeight + "px";
 				
 				qrcode.makeCode(obj.href);
 			}
@@ -271,6 +272,27 @@
 		    rect[1] = top;
 		    rect[2] = width;
 		    rect[3] = height;
+		}
+		
+		function getScollPostion() {
+			var t, l, w, h;
+			if (document.documentElement && (document.documentElement.scrollTop || document.documentElement.scrollLeft)) {
+				t = document.documentElement.scrollTop;
+				l = document.documentElement.scrollLeft;
+				w = document.documentElement.scrollWidth;
+				h = document.documentElement.scrollHeight;
+			} else if (document.body) {
+				t = document.body.scrollTop;
+				l = document.body.scrollLeft;
+				w = document.body.scrollWidth;
+				h = document.body.scrollHeight;
+			}
+			return {
+				scrollTop: t,
+				scrollLeft: l,
+				scrollWidth: w,
+				scrollHeight: h
+			};
 		}
 	</script>
 </body>
